@@ -172,14 +172,24 @@ class VimCell {
                 { context: 'normal' }
             );
 
-            lvim.defineAction('moveCellDown', (cm: any, actionArgs: any) => {
-                commands.execute('notebook:move-cell-down');
+            lvim.defineAction('moveDownOneCell', (cm: any, actionArgs: any) => {
+                // commands.execute('notebook:move-cell-down');
+                commands.execute('select-below-execute-markdown');
+                // commands.addKeyBinding({
+                //     selector: '.jp-Notebook.jp-mod-editMode',
+                //     keys: ['Ctrl E'],
+                //     command: 'select-below-execute-markdown'
+                // });
             });
-            lvim.defineAction('moveCellUp', (cm: any, actionArgs: any) => {
-                commands.execute('notebook:move-cell-up');
+            lvim.defineAction('moveUpOneCell', (cm: any, actionArgs: any) => {
+                commands.execute('select-above-execute-markdown');
+                // commands.execute('notebook:move-cell-up');
             });
-            lvim.mapCommand('<C-e>', 'action', 'moveCellDown', {}, {extra: 'normal'});
-            lvim.mapCommand('<C-y>', 'action', 'moveCellUp', {}, {extra: 'normal'});
+            // lvim.defineAction('scrollDownQuarterPage', (cm: any, actionArgs: any) => {
+            //     commands.execute('notebook:');
+            // })
+            lvim.mapCommand('<C-e>', 'action', 'moveDownOneCell', {}, {extra: 'normal'});
+            lvim.mapCommand('<C-y>', 'action', 'moveUpOneCell', {}, {extra: 'normal'});
             lvim.defineAction('splitCell', (cm: any, actionArgs: any) => {
                 commands.execute('notebook:split-cell-at-cursor');
             });
@@ -475,6 +485,36 @@ function activateCellVim(app: JupyterFrontEnd, tracker: INotebookTracker): Promi
         });
         commands.addKeyBinding({
             selector: '.jp-Notebook.jp-mod-editMode',
+            keys: ['Ctrl E'],
+            command: 'select-below-execute-markdown'
+        });
+        commands.addKeyBinding({
+            selector: '.jp-Notebook.jp-mod-editMode',
+            keys: ['Ctrl Y'],
+            command: 'select-above-execute-markdown'
+        });
+        commands.addKeyBinding({
+            selector: '.jp-Notebook:focus',
+            keys: ['Ctrl E'],
+            command: 'select-below-execute-markdown'
+        });
+        commands.addKeyBinding({
+            selector: '.jp-Notebook:focus',
+            keys: ['Ctrl Y'],
+            command: 'select-above-execute-markdown'
+        });
+        commands.addKeyBinding({
+            selector: '.jp-Notebook:focus',
+            keys: ['Ctrl D'],
+            command: 'select-below-execute-markdown'
+        });
+        commands.addKeyBinding({
+            selector: '.jp-Notebook:focus',
+            keys: ['Ctrl U'],
+            command: 'select-above-execute-markdown'
+        });
+        commands.addKeyBinding({
+            selector: '.jp-Notebook.jp-mod-editMode',
             keys: ['Escape'],
             command: 'leave-insert-mode'
         });
@@ -487,6 +527,11 @@ function activateCellVim(app: JupyterFrontEnd, tracker: INotebookTracker): Promi
             selector: '.jp-Notebook:focus',
             keys: ['Ctrl I'],
             command: 'enter-insert-mode'
+        });
+        commands.addKeyBinding({
+            selector: '.jp-Notebook:focus',
+            keys: ['I'],
+            command: 'notebook:enter-edit-mode'
         });
         commands.addKeyBinding({
             selector: '.jp-Notebook.jp-mod-editMode',
@@ -578,16 +623,16 @@ function activateCellVim(app: JupyterFrontEnd, tracker: INotebookTracker): Promi
             keys: ['U'],
             command: 'notebook:undo-cell-action'
         });
-        commands.addKeyBinding({
-            selector: '.jp-Notebook:focus',
-            keys: ['Ctrl E'],
-            command: 'notebook:move-cell-down'
-        });
-        commands.addKeyBinding({
-            selector: '.jp-Notebook:focus',
-            keys: ['Ctrl Y'],
-            command: 'notebook:move-cell-up'
-        });
+        // commands.addKeyBinding({
+        //     selector: '.jp-Notebook:focus',
+        //     keys: ['Ctrl E'],
+        //     command: 'notebook:move-cell-down'
+        // });
+        // commands.addKeyBinding({
+        //     selector: '.jp-Notebook:focus',
+        //     keys: ['Ctrl Y'],
+        //     command: 'notebook:move-cell-up'
+        // });
         commands.addKeyBinding({
             selector: '.jp-Notebook:focus',
             keys: ['Z', 'Z'],
